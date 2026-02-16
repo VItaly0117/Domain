@@ -35,7 +35,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Ensure database is created
+// Ensure database is created and seed data
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -43,6 +43,23 @@ using (var scope = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<LibraryContext>();
         context.Database.EnsureCreated();
+
+        if (!context.Users.Any())
+        {
+            var user1 = new User { Name = "John Doe", Email = "john.doe@example.com" };
+            var user2 = new User { Name = "Jane Smith", Email = "jane.smith@example.com" };
+
+            context.Users.AddRange(user1, user2);
+            context.SaveChanges();
+
+            context.Books.AddRange(
+                new Book { Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", PublicationYear = 1925, UserId = user1.Id },
+                new Book { Title = "To Kill a Mockingbird", Author = "Harper Lee", PublicationYear = 1960, UserId = user1.Id },
+                new Book { Title = "1984", Author = "George Orwell", PublicationYear = 1949, UserId = user2.Id },
+                new Book { Title = "Pride and Prejudice", Author = "Jane Austen", PublicationYear = 1813, UserId = user2.Id }
+            );
+            context.SaveChanges();
+        }
     }
     catch (Exception ex)
     {
