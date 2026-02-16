@@ -1,10 +1,10 @@
 ﻿@model Domain.Models.Book
 
 @{
-    ViewData["Title"] = "Edit Book";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Edit Book</h1>
+<h1>Edit</h1>
 
 <h4>Book</h4>
 <hr />
@@ -13,34 +13,35 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group mb-3">
+            <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group">
                 <label asp-for="Author" class="control-label"></label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group">
                 <label asp-for="PublicationYear" class="control-label"></label>
                 <input asp-for="PublicationYear" class="form-control" />
                 <span asp-validation-for="PublicationYear" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="UserId" class="control-label">User</label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId">
-                    <option value="">-- Select User --</option>
-                </select>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

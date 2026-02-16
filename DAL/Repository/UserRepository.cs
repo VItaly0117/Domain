@@ -29,6 +29,7 @@ public class UserRepository(LibraryContext context) : IRepository<User>
         {
             existingUser.Name = entity.Name;
             existingUser.Email = entity.Email;
+
             context.SaveChanges();
         }
     }
@@ -37,7 +38,7 @@ public class UserRepository(LibraryContext context) : IRepository<User>
         context.Users.Where(predicate).ToList();
 
     public User? Get(int id) =>
-        context.Users.Include(u => u.Books).FirstOrDefault(u => u.Id == id);
+        context.Users.FirstOrDefault(u => u.Id == id);
 
     public IEnumerable<User> GetAll() =>
         context.Users.ToList();

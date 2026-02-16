@@ -1,5 +1,6 @@
 ﻿using DAL.Context;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repository;
 
@@ -29,18 +30,18 @@ public class BookRepository(LibraryContext context) : IRepository<Book>
             existingBook.Title = entity.Title;
             existingBook.Author = entity.Author;
             existingBook.PublicationYear = entity.PublicationYear;
-            
+            existingBook.UserId = entity.UserId;
 
             context.SaveChanges();
         }
     }
 
     public IEnumerable<Book> Find(Func<Book, bool> predicate) =>
-        context.Books.Where(predicate).ToList();
+        context.Books.Include(b => b.User).Where(predicate).ToList();
 
     public Book? Get(int id) =>
-        context.Books.Find(id);
+        context.Books.Include(b => b.User).FirstOrDefault(b => b.Id == id);
 
     public IEnumerable<Book> GetAll() =>
-        context.Books.ToList();
+        context.Books.Include(b => b.User).ToList();
 }
